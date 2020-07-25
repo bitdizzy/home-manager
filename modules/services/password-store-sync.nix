@@ -50,6 +50,7 @@ in {
             mapAttrsToList (key: value: "${key}=${builtins.toJSON value}");
         in makeEnvironmentPairs programCfg.settings;
         ExecStart = toString (pkgs.writeShellScript "password-store-sync" ''
+          >&2 echo "$PASSWORD_STORE_DIR"
           ${pkgs.pass}/bin/pass git pull --rebase && \
           ${pkgs.pass}/bin/pass git push
         '');
